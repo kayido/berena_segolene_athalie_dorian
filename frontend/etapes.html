@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Chef's Corner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Chef's Corner - Administration</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="catalogue.html">Catalogue</a></li>
+                    <li><a href="admin.html" class="active">Admin</a></li>
+                    <li><a href="#" id="logout-btn">Déconnexion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="admin-page">
+        <nav>
+            <ul>
+                <li><a href="edit_recipes.html">aperçu</a></li>
+                <li><a href="ustensiles.html">Ustensile</a></li>
+                <li><a href="ingredients.html">Ingredient</a></li>
+                <li><a href="etapes.html" class="active">Etape</a></li>
+            </ul>
+        </nav>
+        <!-- Modal pour ajouter/modifier une recette -->
+        <div id="recipe-modal" class="modal">
+            <div class="modal-content">
+                <form class="add-etapes">
+                    <div>
+                        <label>Numero de l'étape</label>
+                        <input type="number" name="number">
+                    </div>
+                    <div>
+                        <label>Description de l'étape</label>
+                        <textarea name="etape"></textarea>
+                    </div>
+                </form>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="button" class="btn btn-secondary close-btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Chef's Corner. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+

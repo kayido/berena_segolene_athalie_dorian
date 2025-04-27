@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue de recettes - Chef's Corner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Chef's Corner</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="catalogue.html" class="active">Catalogue</a></li>
+                    <li><a href="login.html">Connexion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="catalogue">
+        <div class="filters">
+            <h2>Filtrer les recettes</h2>
+            <form id="filter-form">
+                <div class="form-group">
+                    <label for="category">Catégorie:</label>
+                    <select id="category" name="category">
+                        <option value="">Toutes les catégories</option>
+                        <option value="entree">Entrées</option>
+                        <option value="plat">Plats principaux</option>
+                        <option value="dessert">Desserts</option>
+                        <option value="boisson">Boissons</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="country">Pays:</label>
+                    <select id="country" name="country">
+                        <option value="">Tous les pays</option>
+                        <option value="france">France</option>
+                        <option value="italie">Italie</option>
+                        <option value="asie">Asie</option>
+                        <option value="mexique">Mexique</option>
+                        <option value="usa">États-Unis</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Filtrer</button>
+            </form>
+        </div>
+
+        <div class="recipes-container">
+            <div class="recipes-grid" id="all-recipes">
+                <div class="recipe-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ndol%C3%A8_%C3%A0_la_viande%2C_morue_et_crevettes.jpg/500px-Ndol%C3%A8_%C3%A0_la_viande%2C_morue_et_crevettes.jpg" alt="">
+                    <div class="recipe-card-info">
+                        <h3>Dolait</h3>
+                        <p>Plat Amer</p>
+                        <div class="recipe-meta">$
+                            <span><i class="far fa-clock"></i>45 min</span>
+                            <span><i class="fas fa-users"></i> 4 pers.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="recipe-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ndol%C3%A8_%C3%A0_la_viande%2C_morue_et_crevettes.jpg/500px-Ndol%C3%A8_%C3%A0_la_viande%2C_morue_et_crevettes.jpg" alt="">
+                    <div class="recipe-card-info">
+                        <h3>Dolait</h3>
+                        <p>Plat Amer</p>
+                        <div class="recipe-meta">$
+                            <span><i class="far fa-clock"></i>45 min</span>
+                            <span><i class="fas fa-users"></i> 4 pers.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="recipe-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ndol%C3%A8_%C3%A0_la_viande%2C_morue_et_crevettes.jpg/500px-Ndol%C3%A8_%C3%A0_la_viande%2C_morue_et_crevettes.jpg" alt="">
+                    <div class="recipe-card-info">
+                        <h3>Dolait</h3>
+                        <p>Plat Amer</p>
+                        <div class="recipe-meta">$
+                            <span><i class="far fa-clock"></i>45 min</span>
+                            <span><i class="fas fa-users"></i> 4 pers.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- La pagination sera générée ici via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Chef's Corner. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
