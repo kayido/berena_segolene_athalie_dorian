@@ -8,8 +8,6 @@ if (isset($_POST["submit"])) {
     $numero = trim($_POST["number"]);
     $description = trim($_POST["etape"]);
     
-   
-
     $stmt = mysqli_prepare($con, "INSERT INTO `etape`(`numero`, `description`, `id_recette`) VALUES (?,?,?)");
     mysqli_stmt_bind_param($stmt, "isi", $numero, $description, $id);
     

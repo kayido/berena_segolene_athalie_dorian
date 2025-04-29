@@ -1,7 +1,14 @@
 <?php
-
-require "connectBD.php";
-
+session_start();
+if($_SESSION["role"] == "admin"){
+    require "header_admin.php"; 
+}else{
+    if(isset($_SESSION["user_id"])){
+        require "header_login.php";
+    }else{
+        require "header_logout.php";
+    }
+}
 
 
 $id = $_GET["id"];
@@ -66,14 +73,56 @@ if ($result) {
             $utensils[] = $utensil['ustensil_nom'];
         } 
     }
-
-    
-
 } else {
     echo "<p>Aucune recette trouvée.</p>";
 }
+// Close the statement
+mysqli_stmt_close($stmt);
+
+
+if (isset($_POST["commenter"])){
+
+    if(isset($_SESSION["user_id"])){
+        // Sanitize and validate input
+    
+        $note = (int)$_POST["note"];
+        $commentaire = trim($_POST["commentaire"]);
+    
+        // Basic validation
+        if(empty(empty($note) || empty($commentaire))) {
+            echo "<script>alert('Tous les champs sont requis.')</script>";
+            exit;
+        }
+    
+        // Prepare the SQL query
+        $query = "INSERT INTO `rating`(`note`, `commentaire`, `id_user`, `id_recette`) VALUES (?,?,?,?)";
+        $stmt = mysqli_prepare($con, $query);
+        
+        // Bind parameters
+        $user = $_SESSION["user_id"];
+    
+        mysqli_stmt_bind_param($stmt, "isii", $note, $commentaire, $user, $id);
+    
+        // Execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            echo "<script>alert('Avis soumis avec succès!')</script>";
+            // Optionally redirect or clear the form here
+        } else {
+            echo "<script>alert('Erreur lors de la soumission de l'avis.')</script>";
+        }
+    
+        // Close the statement
+        mysqli_stmt_close($stmt);
+    }else{
+        echo "<script>alert('Vous devez vous authentifier pour commenter.')</script>";
+    }
+    
+    
+}
 
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -86,20 +135,17 @@ if ($result) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Chef's Corner - Administration</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="catalogue.html">Catalogue</a></li>
-                    <li><a href="admin.html" class="active">Admin</a></li>
-                    <li><a href="#" id="logout-btn">Déconnexion</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
+    <?php
+    if($_SESSION["role"] == "admin"){
+        require "header_admin.php"; 
+    }else{
+        if(isset($_SESSION["user_id"])){
+            require "header_login.php";
+        }else{
+            require "header_logout.php";
+        }
+    }
+    ?>
     <main class="admin-page">
         
         <!-- Modal pour ajouter/modifier une recette -->
@@ -157,7 +203,38 @@ if ($result) {
                     </ol>
                 </div>
             </div>
-            <button class="publisher">Publier</button>
+            <div class="reviews">
+                <h2>Avis des utilisateurs</h2>
+                <div class="reviews-list" id="reviews-list">
+                    <div class="review-card">aaaaaaaaaaaaaa</div>
+                </div>
+
+                <div class="add-review">
+                    <h3>Donnez votre avis</h3>
+                    <form id="review-form" method="post">
+                        <div class="form-group">
+                            <label for="review-name">Nom:</label>
+                            <input type="text" id="review-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-rating">Note:</label>
+                            <select id="review-rating" name="note" required>
+                                <option value="">Sélectionnez une note</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Très bon</option>
+                                <option value="3">3 - Bon</option>
+                                <option value="2">2 - Médiocre</option>
+                                <option value="1">1 - Mauvais</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-comment">Commentaire:</label>
+                            <textarea id="review-comment" rows="4" name="commentaire" required></textarea>
+                        </div>
+                        <button type="submit" class="btn" name="commenter">Soumettre</button>
+                    </form>
+                </div>
+            </div>
         </main>
     </main>
 
@@ -172,8 +249,6 @@ if ($result) {
 </html>
 
 <?php
-// Close the statement
-mysqli_stmt_close($stmt);
 
 // Close the database connection
 mysqli_close($con);

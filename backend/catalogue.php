@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 $Con = mysqli_connect("localhost", "root", "", "recettes_db");
 
 if (!$Con) {
@@ -26,7 +29,15 @@ while ($row = mysqli_fetch_assoc($req)) {
 </head>
 <body>
     <?php 
-        require 'header_logout.php'; 
+        if($_SESSION["role"] == "admin"){
+            require "header_admin.php"; 
+        }else{
+            if(isset($_SESSION["user_id"])){
+                require "header_login.php";
+            }else{
+                require "header_logout.php";
+            }
+        }     
     ?>
 
     <main class="catalogue">
