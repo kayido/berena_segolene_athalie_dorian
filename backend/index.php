@@ -28,26 +28,25 @@ session_start();
                 require "header_logout.php";
             }
         }
-        print_r($_SESSION);
         ?>
 
     <main class="homepage">
         <div class="hero">
             <div class="search-container">
                 <h2>Découvrez des recettes exceptionnelles</h2>
-                <form id="search-form" method="GET" action="result.php">
-                    <input type="text" id="search-input" placeholder="Rechercher une recette...">
+                <form id="search-form" method="get" action="result.php">
+                    <input type="text" id="search-input" placeholder="Rechercher une recette..." name="search">
                     <button type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
 
-        <section class="featured-recipes">
+        <!-- <section class="featured-recipes">
             <h2>Recettes populaires</h2>
             <div class="recipes-grid" id="featured-recipes">
-                <!-- Les recettes populaires seront chargées ici via JavaScript -->
+                 Les recettes populaires seront chargées ici via JavaScript
             </div>
-        </section>
+        </section> -->
     </main>
 
     <footer>

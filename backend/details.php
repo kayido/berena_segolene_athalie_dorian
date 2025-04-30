@@ -70,6 +70,17 @@ if ($result) {
 // Close the statement
 mysqli_stmt_close($stmt);
 
+$query = "SELECT * FROM rating WHERE id_recette= ?";
+$req = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param($req, "i", $id);
+mysqli_stmt_execute($req);
+$result = mysqli_stmt_get_result($req);
+
+$commentaires = [];
+while($row = mysqli_fetch_assoc($result)){
+    $commentaires[] = $row["commentaire"];
+}
+
 
 if (isset($_POST["commenter"])){
 
@@ -203,16 +214,16 @@ if (isset($_POST["commenter"])){
             <div class="reviews">
                 <h2>Avis des utilisateurs</h2>
                 <div class="reviews-list" id="reviews-list">
-                    <div class="review-card">aaaaaaaaaaaaaa</div>
+                    <?php
+                        foreach($commentaires as $c) :
+                    ?>
+                    <div class="review-card"><?= $c ?></div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="add-review">
                     <h3>Donnez votre avis</h3>
                     <form id="review-form" method="post">
-                        <div class="form-group">
-                            <label for="review-name">Nom:</label>
-                            <input type="text" id="review-name" name="name" required>
-                        </div>
                         <div class="form-group">
                             <label for="review-rating">Note:</label>
                             <select id="review-rating" name="note" required>

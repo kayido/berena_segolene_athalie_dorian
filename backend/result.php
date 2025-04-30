@@ -5,7 +5,7 @@ if (!$Con) {
     die("Erreur de connexion à la base de données");
 }
 
-$search = $_GET['query'] ?? '';
+$search = $_GET['search'];
 
 $Query = "SELECT * FROM recette WHERE nom LIKE '%$search%'";
 $req = mysqli_query($Con, $Query);
@@ -30,16 +30,11 @@ while ($row = mysqli_fetch_assoc($req)) {
     </header>
 
     <main class="catalogue">
-        <div class="filters">
-            <h2>Filtrer les recettes</h2>
-            
-        </div>
-
         <div class="recipes-container">
                 <?php
                 foreach( $data as $recipe){ ?>
                 <a href="details.php?id=<?=$recipe["id_recette"]?>"><div class="recipe-card">
-                    <img src="<?= $recipe["image"] ?>" alt="">
+                    <img src="<?= $recipe["image"] ?>" loading="lazy" alt="">
                     <div class="recipe-card-info">
                         <h3><?= $recipe["nom"] ?></h3>
                         <p>Plat Amer</p>
