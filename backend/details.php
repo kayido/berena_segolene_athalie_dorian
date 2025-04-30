@@ -1,15 +1,6 @@
 <?php
 session_start();
-if($_SESSION["role"] == "admin"){
-    require "header_admin.php"; 
-}else{
-    if(isset($_SESSION["user_id"])){
-        require "header_login.php";
-    }else{
-        require "header_logout.php";
-    }
-}
-
+require "connectBD.php";
 
 $id = $_GET["id"];
 
@@ -135,24 +126,30 @@ if (isset($_POST["commenter"])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php
-    if($_SESSION["role"] == "admin"){
-        require "header_admin.php"; 
-    }else{
-        if(isset($_SESSION["user_id"])){
-            require "header_login.php";
+<?php if(isset($_SESSION["role"])){
+            if($_SESSION["role"] == "admin"){
+                require "header_admin.php"; 
+            }else{
+                if(isset($_SESSION["user_id"])){
+                    require "header_login.php";
+                }else{
+                    require "header_logout.php";
+                }
+            }    
         }else{
-            require "header_logout.php";
-        }
-    }
-    ?>
+            if(isset($_SESSION["user_id"])){
+                require "header_login.php";
+            }else{
+                require "header_logout.php";
+            }
+        }?>
     <main class="admin-page">
         
         <!-- Modal pour ajouter/modifier une recette -->
         <main class="recipe-detail">
             <div class="recipe-header">
                 <div class="recipe-image">
-                    <img id="recipe-image" src="<?= $recette["image"]?> " alt="Image de la recette">
+                    <img id="recipe-image" src="<?= $recette["image"]?> " alt="Image de la recette" loading="lazy">
                 </div>
                 <div class="recipe-info">
                     <h1 id="recipe-title">Nom de la recette</h1>

@@ -12,19 +12,23 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<?php 
-    if(isset($_SESSION["role"])){
-        if($_SESSION["role"] == "admin"){
-            require "header_admin.php"; 
+<?php if(isset($_SESSION["role"])){
+            if($_SESSION["role"] == "admin"){
+                require "header_admin.php"; 
+            }else{
+                if(isset($_SESSION["user_id"])){
+                    require "header_login.php";
+                }else{
+                    require "header_logout.php";
+                }
+            }    
         }else{
             if(isset($_SESSION["user_id"])){
                 require "header_login.php";
             }else{
                 require "header_logout.php";
             }
-        }    
-    }
-?>
+        } ?>
 
     <main class="auth-page">
         <div class="auth-container">

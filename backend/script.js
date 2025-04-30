@@ -51,11 +51,11 @@ function handleFormSubmissions() {
             
                     if (role === "admin") {
                         setTimeout(() => {
-                            window.location.href = "admin.html";
+                            window.location.href = "admin.php";
                         }, 2000);
                     } else if (role === "user") {
                         setTimeout(() => {
-                            window.location.href = "index.html";
+                            window.location.href = "index.php";
                         }, 2000);
                     }
                 } else {

@@ -28,35 +28,26 @@ while ($row = mysqli_fetch_assoc($req)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php 
-        if($_SESSION["role"] == "admin"){
-            require "header_admin.php"; 
+<?php if(isset($_SESSION["role"])){
+            if($_SESSION["role"] == "admin"){
+                require "header_admin.php"; 
+            }else{
+                if(isset($_SESSION["user_id"])){
+                    require "header_login.php";
+                }else{
+                    require "header_logout.php";
+                }
+            }    
         }else{
             if(isset($_SESSION["user_id"])){
                 require "header_login.php";
             }else{
                 require "header_logout.php";
             }
-        }     
-    ?>
-
+        }?>
     <main class="catalogue">
         <div class="filters">
             <h2>Filtrer les recettes</h2>
-            <form id="filter-form">
-                <div class="form-group">
-                    <label for="country">Pays:</label>
-                    <select id="country" name="country">
-                        <option value="">Tous les pays</option>
-                        <option value="france">France</option>
-                        <option value="italie">Italie</option>
-                        <option value="asie">Asie</option>
-                        <option value="mexique">Mexique</option>
-                        <option value="usa">États-Unis</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn">Filtrer</button>
-            </form>
         </div>
 
         <div class="recipes-container">
@@ -64,7 +55,7 @@ while ($row = mysqli_fetch_assoc($req)) {
             <?php
                 foreach( $data as $recipe){ ?>
                 <a href="details.php?id=<?=$recipe["id_recette"]?>"><div class="recipe-card">
-                    <img src="<?= $recipe["image"] ?>" alt="">
+                    <img src="<?= $recipe["image"] ?>" alt="image_recette" loading="lazy">
                     <div class="recipe-card-info">
                         <h3><?= $recipe["nom"] ?></h3>
                         <p>Plat Amer</p>

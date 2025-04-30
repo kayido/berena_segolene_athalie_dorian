@@ -38,6 +38,10 @@ if(isset($_POST["submit"])){
 
 ?>
 
+<?php
+if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -106,4 +110,8 @@ if(isset($_POST["submit"])){
 </body>
 </html>
 
-
+<?php
+}else{
+    header("location: index.php");
+}
+?>

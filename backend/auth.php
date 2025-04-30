@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php'; // db.php contient : $con = mysqli_connect(...)
+require_once 'connectBD.php'; // db.php contient : $con = mysqli_connect(...)
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'];

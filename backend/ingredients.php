@@ -39,6 +39,10 @@ if(isset($_POST["submit"])){
 
 
 ?>
+
+<?php
+if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -49,9 +53,23 @@ if(isset($_POST["submit"])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php 
-        require 'header_admin.php';
-    ?>
+<?php if(isset($_SESSION["role"])){
+            if($_SESSION["role"] == "admin"){
+                require "header_admin.php"; 
+            }else{
+                if(isset($_SESSION["user_id"])){
+                    require "header_login.php";
+                }else{
+                    require "header_logout.php";
+                }
+            }    
+        }else{
+            if(isset($_SESSION["user_id"])){
+                require "header_login.php";
+            }else{
+                require "header_logout.php";
+            }
+        }?>
     <main class="admin-page">
         <nav>
             <ul>
@@ -95,5 +113,8 @@ if(isset($_POST["submit"])){
     <script src="script.js"></script>
 </body>
 </html>
-
-
+<?php
+}else{
+    header("location: index.php");
+}
+?>

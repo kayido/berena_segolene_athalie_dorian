@@ -9,6 +9,9 @@ while ($row = mysqli_fetch_assoc($req)){
 }
 
 ?>
+<?php
+if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,9 +23,23 @@ while ($row = mysqli_fetch_assoc($req)){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php
-
-        require 'header_admin.php';
+    <?php if(isset($_SESSION["role"])){
+            if($_SESSION["role"] == "admin"){
+                require "header_admin.php"; 
+            }else{
+                if(isset($_SESSION["user_id"])){
+                    require "header_login.php";
+                }else{
+                    require "header_logout.php";
+                }
+            }    
+        }else{
+            if(isset($_SESSION["user_id"])){
+                require "header_login.php";
+            }else{
+                require "header_logout.php";
+            }
+        }
     ?>
 
     <main class="admin-page">
@@ -66,4 +83,12 @@ while ($row = mysqli_fetch_assoc($req)){
     <script src="script.js"></script>
 </body>
 </html>
+
+
+<?php
+}else{
+    header("location: index.php");
+}
+
+?>
 
