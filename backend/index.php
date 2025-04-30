@@ -27,7 +27,9 @@ session_start();
             }else{
                 require "header_logout.php";
             }
-        }?>
+        }
+        print_r($_SESSION);
+        ?>
 
     <main class="homepage">
         <div class="hero">

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require "connectBD.php";
 
 $id = $_GET["id"] ? $_GET["id"] : 0 ;
@@ -12,10 +12,10 @@ $query = "SELECT * FROM ustensil";
 
 $req = mysqli_query($con,$query);
 $data = array();
+
 while($row = mysqli_fetch_assoc($req)){
     $data[] = $row;
 }
-
 
 if(isset($_POST["submit"])){
     $components = $_POST["components"];

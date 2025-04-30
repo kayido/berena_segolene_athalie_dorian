@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require "connectBD.php";
 
 if (isset($_POST["submit"])) {

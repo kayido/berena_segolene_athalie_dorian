@@ -4,7 +4,7 @@ require "connectBD.php";
 $id = $_GET['id'];
 $ig = $_GET['ig'];
 
-$req = mysqli_query($con,"DELETE FROM `ustensil_recette` WHERE id_ustensil = $ig AND id_recette = $id");
+$req = mysqli_query($con,"DELETE FROM `ustensil_recette` WHERE id_ustensil = '$ig' AND id_recette = '$id'");
 
 if($req){
     echo "<script>alert('ustensil supprimé avec succès')</script>";

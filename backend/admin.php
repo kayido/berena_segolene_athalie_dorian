@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require "connectBD.php";
 $query = "select * from recette";
 $req = mysqli_query($con,$query);
@@ -10,7 +10,7 @@ while ($row = mysqli_fetch_assoc($req)){
 
 ?>
 <?php
-if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
+if(isset($_SESSION["role"]) && $_SESSION["role"] === "admin"){
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Chef's Corner</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <?php if(isset($_SESSION["role"])){
@@ -57,7 +57,6 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
                 <div class = 'admin-recipe-card'>
                     <div class="admin-recipe-info">
                         <h3><?= $recette["nom"] ?></h3>
-                        <p>'Entrée'</p>
                     </div>
                     <div class="admin-recipe-actions">
                         <button class="btn btn-small edit-btn" data-id="${recipe.id}"><a href="edit_recipes?id=<?=$recette["id_recette"]?>"><i class="fas fa-edit"></i></a></button>

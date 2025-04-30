@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require "connectBD.php";
 
 $id = $_GET["id"] ? $_GET["id"] : 0 ;
