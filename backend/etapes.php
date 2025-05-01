@@ -37,63 +37,64 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<?php if(isset($_SESSION["role"])){
-            if($_SESSION["role"] == "admin"){
-                require "header_admin.php"; 
-            }else{
-                if(isset($_SESSION["user_id"])){
-                    require "header_login.php";
-                }else{
-                    require "header_logout.php";
-                }
-            }    
+<?php 
+if(isset($_SESSION["role"])){
+    if($_SESSION["role"] == "admin"){
+        require "header_admin.php"; 
+    }else{
+        if(isset($_SESSION["user_id"])){
+            require "header_login.php";
         }else{
-            if(isset($_SESSION["user_id"])){
-                require "header_login.php";
-            }else{
-                require "header_logout.php";
-            }
-        }?>
+            require "header_logout.php";
+        }
+    }    
+}else{
+    if(isset($_SESSION["user_id"])){
+        require "header_login.php";
+    }else{
+        require "header_logout.php";
+    }
+}
+?>
 
-    <main class="admin-page">
-        <nav>
-            <ul>
-                <li><a href="edit_recipes.php?id=<?=$id?>">aperçu</a></li>
-                <li><a href="ustensiles.php?id=<?=$id?>">Ustensile</a></li>
-                <li><a href="ingredients.php?id=<?=$id?>">Ingredient</a></li>
-                <li><a href="etapes.php?id=<?=$id?>" class="active">Etape</a></li>
-            </ul>
-        </nav>
-        <!-- Modal pour ajouter/modifier une recette -->
-        <div id="recipe-modal" class="modal">
-            <div class="modal-content">
-                <form class="add-etapes" method="post">
-                    <div>
-                        <label>Numero de l'étape</label>
-                        <input type="number" name="number">
-                    </div>
-                    <div>
-                        <label>Description de l'étape</label>
-                        <textarea name="etape"></textarea>
-                    </div>
-                    <div class="form-actions">
-                    <button type="submit" class="btn btn-primary" name="submit">Enregistrer</button>
-                    <button type="reset" class="btn btn-secondary close-btn">Annuler</button>
+<main class="admin-page">
+    <nav>
+        <ul>
+            <li><a href="edit_recipes.php?id=<?=$id?>">aperçu</a></li>
+            <li><a href="ustensiles.php?id=<?=$id?>">Ustensile</a></li>
+            <li><a href="ingredients.php?id=<?=$id?>">Ingredient</a></li>
+            <li><a href="etapes.php?id=<?=$id?>" class="active">Etape</a></li>
+        </ul>
+    </nav>
+    <div id="recipe-modal" class="modal">
+        <div class="modal-content">
+            <form class="add-etapes" method="post">
+                <div>
+                    <label>Numero de l'étape</label>
+                    <input type="number" name="number">
                 </div>
-                </form>
-                
+                <div>
+                    <label>Description de l'étape</label>
+                    <textarea name="etape"></textarea>
+                </div>
+                <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="submit">Enregistrer</button>
+                <button type="reset" class="btn btn-secondary close-btn">Annuler</button>
             </div>
+            </form>
+            
         </div>
+    </div>
 
-    </main>
+</main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Chef's Corner. Tous droits réservés.</p>
-        </div>
-    </footer>
+<footer>
+    <div class="container">
+        <p>&copy; 2023 Chef's Corner. Tous droits réservés.</p>
+    </div>
+</footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
 

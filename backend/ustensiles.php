@@ -4,7 +4,7 @@ require "connectBD.php";
 
 $id = $_GET["id"] ? $_GET["id"] : 0 ;
 
-if($id==0){
+if($id == 0){
     header("location: admin.php");
 }
 
@@ -25,15 +25,14 @@ if(isset($_POST["submit"])){
         $query = "INSERT INTO `ustensil_recette`(`id_recette`, `id_ustensil`) VALUES (?,?)";
         $stmt = mysqli_prepare($con,$query);
 
-        mysqli_stmt_bind_param($stmt, "ii", $component, $id );
+        mysqli_stmt_bind_param($stmt, "ii", $id, $component );
 
-        if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('Ustensil rajouter')</script>";
-            exit;
-        } else {
+        if (!mysqli_stmt_execute($stmt)) {
             echo "<script>alert('Un problème est survenu')</script>";
         }
     }
+    echo "<script> window.location = 'http://localhost/greenproject/backend/edit_recipes.php?id=$id' </script>'";
+
 }
 
 ?>
@@ -75,7 +74,6 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
                 <li><a href="etapes.php?id=<?=$id?>" class="active">Etape</a></li>
             </ul>
         </nav>
-        <!-- Modal pour ajouter/modifier une recette -->
         <div id="recipe-modal" class="modal">
             <form class="modal-content" method="post">
                 <div class="filter-component">

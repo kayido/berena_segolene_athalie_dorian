@@ -13,7 +13,7 @@ $recette = mysqli_fetch_assoc($result);
 
 
 // Prepare the SQL query
-$query = "SELECT r.*,e.numero, e.description AS etape_desc, i.id_ingredient as ig , i.nom AS ingredient_nom, u.nom AS ustensil_nom, u.id_ustensil AS iu 
+$query = "SELECT r.*,e.numero, e.id_etape, e.description AS etape_desc, i.id_ingredient as ig , i.nom AS ingredient_nom, u.nom AS ustensil_nom, u.id_ustensil AS iu 
           FROM recette r 
           JOIN etape e ON e.id_recette = r.id_recette 
           JOIN ingredient_recette ir ON r.id_recette = ir.id_recette  
@@ -24,11 +24,7 @@ $query = "SELECT r.*,e.numero, e.description AS etape_desc, i.id_ingredient as i
 
 $stmt = mysqli_prepare($con, $query);
 mysqli_stmt_bind_param($stmt, "i", $id);
-
-// Execute the statement
 mysqli_stmt_execute($stmt);
-
-// Get the result
 $result = mysqli_stmt_get_result($stmt);
 
 if ($result) {
@@ -36,10 +32,9 @@ if ($result) {
     $steps = [];
     $numbers = [];
     
-    while ($recipe = mysqli_fetch_assoc($result)){
-        
+    while ($recipe = mysqli_fetch_assoc($result)){        
         if(!in_array($recipe['numero'],$numbers)){
-            $steps[] = $recipe['numero']."--".$recipe['etape_desc'];
+            $steps[] = $recipe['id_etape']."--".$recipe['etape_desc'];
             $numbers[] = $recipe['numero'];
         }
 
@@ -73,6 +68,18 @@ if ($result) {
 
 }
 
+if(isset($_POST["publier"])){
+    $sql = "UPDATE recette SET publier = 'yes' WHERE id_recette = '$id'";
+    // Exécution de la requête
+    if (mysqli_query($con, $sql)) {
+        echo "<script>
+            alert('Recette publiée');
+            window.location.url = 'admin.php'
+        </script>";
+    } else {
+        echo "Erreur de mise à jour : " . mysqli_error($con);
+    }
+}
 
 ?>
 
@@ -90,23 +97,24 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<?php if(isset($_SESSION["role"])){
-            if($_SESSION["role"] == "admin"){
-                require "header_admin.php"; 
-            }else{
-                if(isset($_SESSION["user_id"])){
-                    require "header_login.php";
-                }else{
-                    require "header_logout.php";
-                }
-            }    
+<?php 
+if(isset($_SESSION["role"])){
+    if($_SESSION["role"] == "admin"){
+        require "header_admin.php"; 
+    }else{
+        if(isset($_SESSION["user_id"])){
+            require "header_login.php";
         }else{
-            if(isset($_SESSION["user_id"])){
-                require "header_login.php";
-            }else{
-                require "header_logout.php";
-            }
-        }?>
+            require "header_logout.php";
+        }
+    }    
+} else {
+    if(isset($_SESSION["user_id"])){
+        require "header_login.php";
+    }else{
+        require "header_logout.php";
+    }
+}?>
 
     <main class="admin-page">
         <nav>
@@ -117,11 +125,10 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
                 <li><a href="etapes.php?id=<?=$id?>" class="active">Etape</a></li>
             </ul>
         </nav>
-        <!-- Modal pour ajouter/modifier une recette -->
-        <main class="recipe-detail">
+        <form class="recipe-detail" method="post" action="">
             <div class="recipe-header">
                 <div class="recipe-image">
-                    <img id="recipe-image" src="" alt="Image de la recette">
+                    <img id="recipe-image" src="<?= $recette["image"] ?>" alt="Image de la recette" loading="lazy">
                 </div>
                 <div class="recipe-info">
                     <h1 id="recipe-title">Nom de la recette</h1>
@@ -129,7 +136,6 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
                         <span id="recipe-time"><i class="far fa-clock"></i><?= $recette["tmp_preparation"] ?> Temps de préparation</span>
                         <span id="recipe-servings"><i class="fas fa-users"></i><?= $recette["nbr_personne"] ?> Nombre de personnes</span>
                         <span id="recipe-country"><i class="fas fa-globe"></i> Pays : <?= $recette["origine"] ?></span>
-                        <!-- <span id="recipe-category"><i class="fas fa-tag"></i> Catégorie</span> -->
                     </div>
                 </div>
             </div>
@@ -146,7 +152,7 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
                             <li>
                                 <div><?=htmlspecialchars($array[1])?></div>
                                 <div><a href="deleteingredient.php?id=<?=$id?>&ig=<?=$ig?>">❌</a></div> 
-                            </li>;
+                            </li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -181,8 +187,12 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
                     </ol>
                 </div>
             </div>
-            <button class="publisher">Publier</button>
-        </main>
+            <?php
+            if($recette["publier"] == "no"):
+            ?>
+            <button class="publisher" type="submit" name="publier">Publier</button>
+            <?php endif; ?>
+            </form>
     </main>
 
     <footer>
@@ -202,9 +212,7 @@ if(isset($_SESSION["role"]) && $_SESSION["role"] =="admin"){
 ?>
 
 <?php
-// Close the statement
 mysqli_stmt_close($stmt);
 
-// Close the database connection
 mysqli_close($con);
 

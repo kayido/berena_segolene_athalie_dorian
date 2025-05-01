@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Con = mysqli_connect("localhost", "root", "", "recettes_db");
 
 if (!$Con) {
@@ -7,7 +8,7 @@ if (!$Con) {
 
 $search = $_GET['search'];
 
-$Query = "SELECT * FROM recette WHERE nom LIKE '%$search%'";
+$Query = "SELECT * FROM recette WHERE nom LIKE '%$search%' AND publier ='yes'";
 $req = mysqli_query($Con, $Query);
 $data  = array();
 while ($row = mysqli_fetch_assoc($req)) {
@@ -24,40 +25,62 @@ while ($row = mysqli_fetch_assoc($req)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php 
-        require 'header_logout.php';
-    ?>
-    </header>
+<?php 
 
-    <main class="catalogue">
-        <div class="recipes-container">
-                <?php
-                foreach( $data as $recipe){ ?>
-                <a href="details.php?id=<?=$recipe["id_recette"]?>"><div class="recipe-card">
-                    <img src="<?= $recipe["image"] ?>" loading="lazy" alt="">
-                    <div class="recipe-card-info">
-                        <h3><?= $recipe["nom"] ?></h3>
-                        <p>Plat Amer</p>
-                        <div class="recipe-meta">
-                            <span><i class="far fa-clock"></i><?= $recipe["tmp_preparation"] ?> min</span>
-                            <span><i class="fas fa-users"></i> <?= $recipe["nbr_personne"] ?> pers.</span>
-                        </div>
-                    </div>
-                </div></a>
-                <?php } ?>
+if(isset($_SESSION["role"])){
+    if($_SESSION["role"] == "admin"){
+        require "header_admin.php"; 
+    }else{
+        if(isset($_SESSION["user_id"])){
+            require "header_login.php";
+        }else{
+            require "header_logout.php";
+        }
+    }    
+}else{
+    if(isset($_SESSION["user_id"])){
+        require "header_login.php";
+    }else{
+        require "header_logout.php";
+    }
+}
+
+?>
+</header>
+
+<main class="catalogue">
+    <div class="filters">
+            <h2>Résultats pour "<?=$search?>"</h2>
+    </div>
+    <div class="recipes-container">
+        <?php
+        foreach( $data as $recipe){ ?>
+        <a href="details.php?id=<?=$recipe["id_recette"]?>"><div class="recipe-card">
+            <img src="<?= $recipe["image"] ?>" loading="lazy" alt="">
+            <div class="recipe-card-info">
+                <h3><?= $recipe["nom"] ?></h3>
+                <p>Plat Amer</p>
+                <div class="recipe-meta">
+                    <span><i class="far fa-clock"></i><?= $recipe["tmp_preparation"] ?> min</span>
+                    <span><i class="fas fa-users"></i> <?= $recipe["nbr_personne"] ?> pers.</span>
+                </div>
             </div>
-            <div class="pagination" id="pagination">
-                <!-- La pagination sera générée ici via JavaScript -->
-            </div>
-        </div>
-    </main>
+        </div></a>
+        <?php } ?>
+    </div>
+    <div class="pagination" id="pagination">
+        <!-- La pagination sera générée ici via JavaScript -->
+    </div>
+    </div>
+    
+</main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Chef's Corner. Tous droits réservés.</p>
-        </div>
-    </footer>
+<footer>
+    <div class="container">
+        <p>&copy; 2023 Chef's Corner. Tous droits réservés.</p>
+    </div>
+</footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

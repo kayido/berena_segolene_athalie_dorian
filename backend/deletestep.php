@@ -5,7 +5,7 @@ require "connectBD.php";
 $id = $_GET['id'];
 $ig = $_GET['ig'];
 
-$req = mysqli_query($con,"DELETE FROM `etape` WHERE `id_recette`= '$id' AND `id_etape`='$ig' ");
+$req = mysqli_query($con,"DELETE FROM `etape` WHERE id_etape = '$ig' ");
 
 if($req){
     echo "<script>alert('etape supprimé avec succès')</script>";
