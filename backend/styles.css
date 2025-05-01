@@ -236,6 +236,16 @@ nav ul li a.active {
     padding: 2rem 0;
 }
 
+.info{
+    background-color: #fff3cd; 
+    color: #856404; 
+    border: 1px solid #ffeeba; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin: 20px 0; 
+    font-family: Arial, sans-serif; 
+}
+
 .recipe-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -657,8 +667,6 @@ footer {
     .homepage .hero {
         height: 50vh;
     }
-
-    
 
     .recipe-header,
     .recipe-content {

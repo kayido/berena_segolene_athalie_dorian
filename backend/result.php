@@ -1,15 +1,12 @@
 <?php
 session_start();
-$Con = mysqli_connect("localhost", "root", "", "recettes_db");
 
-if (!$Con) {
-    die("Erreur de connexion à la base de données");
-}
+require "connectBD.php";
 
 $search = $_GET['search'];
 
 $Query = "SELECT * FROM recette WHERE nom LIKE '%$search%' AND publier ='yes'";
-$req = mysqli_query($Con, $Query);
+$req = mysqli_query($con, $Query);
 $data  = array();
 while ($row = mysqli_fetch_assoc($req)) {
     $data[]  = $row;
@@ -72,7 +69,6 @@ if(isset($_SESSION["role"])){
         <!-- La pagination sera générée ici via JavaScript -->
     </div>
     </div>
-    
 </main>
 
 <footer>

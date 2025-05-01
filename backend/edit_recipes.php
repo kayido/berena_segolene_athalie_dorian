@@ -39,8 +39,6 @@ if ($result) {
         }
 
     }
-    
-    
     mysqli_data_seek($result, 0);
     
     // Fetch ingredients
@@ -49,7 +47,6 @@ if ($result) {
     $igs = [];
 
     while ($ingredient = mysqli_fetch_assoc($result)) {
-       
         if(!in_array($ingredient['ig'],$igs)){
             $ingredients[] =  $ingredient['ig'].'--'.$ingredient['ingredient_nom'];
             $igs[] = $ingredient['ig'];
@@ -126,6 +123,7 @@ if(isset($_SESSION["role"])){
             </ul>
         </nav>
         <form class="recipe-detail" method="post" action="">
+            <p class="info"> Vous devez ajouter au moins un ustensile, un ingrédient et une étape pour qu'ils apparaissent dans leurs blocs</p>
             <div class="recipe-header">
                 <div class="recipe-image">
                     <img id="recipe-image" src="<?= $recette["image"] ?>" alt="Image de la recette" loading="lazy">

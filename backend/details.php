@@ -79,12 +79,6 @@ if (isset($_POST["commenter"])){
     
         $note = (int)$_POST["note"];
         $commentaire = trim($_POST["commentaire"]);
-    
-        if(empty(empty($note) || empty($commentaire))) {
-            echo "<script>alert('Tous les champs sont requis.')</script>";
-            exit;
-        }
-    
         $query = "INSERT INTO `rating`(`note`, `commentaire`, `id_user`, `id_recette`) VALUES (?,?,?,?)";
         $stmt = mysqli_prepare($con, $query);
         
